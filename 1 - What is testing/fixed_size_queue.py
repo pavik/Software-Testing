@@ -129,14 +129,28 @@ def test3():
   q.checkrep()
   print "test3 PASSED"
 
-#def test4():
-#  q = Queue(1)
-#  q.enqueue(46382764832684)
-#  if 46382764832684 != q.enqueue():
-#    print "test4 FAILED"
-#    return
+def test4():
+  for t in range(100):
+    random.seed(t)
+    maxsize = random.randint(1, 1000)
+    q = Queue(maxsize)
+    qsize = 0
+    for i in range(10000):
+      r = random.randint(1, 1000)
+      method = r % 4
+      q.checkrep()
+      if method == 0:
+        assert q.empty() == (qsize == 0)
+      elif method == 1:
+        assert q.full() == (qsize == maxsize)
+      elif method == 2:
+        if q.enqueue(r):
+          qsize += 1
+      elif method == 3:
+        if q.dequeue() != None:
+          qsize -= 1
 
-#  print "test4 PASSED"
+  print "test4 PASSED"
 
 def test5():
   q = Queue(1)
@@ -160,7 +174,7 @@ def main():
     test1()
     test2()
     test3()
-    #test4()
+    test4()
     test5()
 
 if __name__ == '__main__':
